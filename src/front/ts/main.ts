@@ -6,17 +6,17 @@
  * Brief: Main frontend file (where the logic is)
 =============================================================================*/
 
-//=======[ Settings, Imports & Data ]==========================================
+class Main {
+  constructor(){
 
-let user = "TypesScript Users!";
+  }
+  main():void {
+      console.log("mensaje Main.main")
+  }
 
-//=======[ Main module code ]==================================================
+}
 
-function greeter(person) {
-    return "Hello, " + person;
- }
- 
- //document.body.innerHTML = greeter(user);
- console.log("hello world");
-
-//=======[ End of file ]=======================================================
+window.onload = function(){
+    let main:Main = new Main();
+    main.main()
+};
