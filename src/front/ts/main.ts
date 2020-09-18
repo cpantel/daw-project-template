@@ -16,6 +16,7 @@ function greeter(person) {
     return "Hello, " + person;
  }
  
- document.body.innerHTML = greeter(user);
+ //document.body.innerHTML = greeter(user);
+ console.log("hello world");
 
 //=======[ End of file ]=======================================================
