@@ -15,11 +15,18 @@ class Main {
       let b:HTMLElement = mf.getElementById("button_1");
 
       b.textContent = "Hello World";
+
+      b.addEventListener("click", this.evento);
   }
 
   mostrarUsers(users:Array<User>):void {
     
       users.forEach( user => user.printInfo());
+  }
+
+  evento(ev:Event):void {
+    console.log("click in button");
+    console.log(this);
   }
 
 }
