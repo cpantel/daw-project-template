@@ -12,21 +12,17 @@ class Main {
 
       let mf:MyFramework = new MyFramework();
 
-      let b:HTMLElement = mf.getElementById("button_1");
+      mf.configClick("button_1", () => {
+         console.log("click in button_1");
+         console.log(this);
+      });
 
-      b.textContent = "Hello World";
 
-      b.addEventListener("click", this.evento);
   }
 
   mostrarUsers(users:Array<User>):void {
     
       users.forEach( user => user.printInfo());
-  }
-
-  evento(ev:Event):void {
-    console.log("click in button");
-    console.log(this);
   }
 
 }
