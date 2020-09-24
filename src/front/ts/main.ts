@@ -7,13 +7,19 @@ class Main {
       users.push(new User(0,"Ana", "ana@gmail.com"));
       users.push(new User(1,"Beto", "beto@gmail.com"));
       users.push(new User(2,"Camila", "camila@gmail.com"));
-      users.forEach( user => user.printInfo());
+
+      this.mostrarUsers(users);
 
       let mf:MyFramework = new MyFramework();
 
       let b:HTMLElement = mf.getElementById("button_1");
 
       b.textContent = "Hello World";
+  }
+
+  mostrarUsers(users:Array<User>):void {
+    
+      users.forEach( user => user.printInfo());
   }
 
 }
