@@ -1,7 +1,15 @@
-class Main {
-  constructor(){
+class Main implements EventListenerObject, GETResponseListener {
 
+  counter = 0;
+  mf = new MyFramework();
+  constructor(){
+    this.counter = 0;
   }
+
+  handleGETResponse(status:number, response:string):void {
+    console.log("status: " + status + " response: " + response); 
+  }
+
   main():void {
       let users:Array<User> = new Array<User>();
       users.push(new User(0,"Ana", "ana@gmail.com"));
@@ -10,13 +18,8 @@ class Main {
 
       this.mostrarUsers(users);
 
-      let mf:MyFramework = new MyFramework();
-
-      mf.configClick("button_1", () => {
-         console.log("click in button_1");
-         console.log(this);
-      });
-
+      let b:HTMLElement = document.getElementById("button_1");
+      b.addEventListener("click",this);
 
   }
 
@@ -24,6 +27,17 @@ class Main {
     
       users.forEach( user => user.printInfo());
   }
+
+  handleEvent(evt:Event):void{
+    let target = this.mf.getElementByEvent(evt);
+    console.log("click");
+    console.log(target);
+    console.log(this);
+    this.counter++;
+    target.textContent = this.counter;
+    this.mf.requestGET("devices.txt",this);
+  }
+
 
 }
 
