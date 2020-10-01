@@ -10,29 +10,41 @@
     </head>
     <body onload="Main.main()">
 		<!-- Navigation bar -->
+		<!-- Navigation bar -->
         <nav style="background-color:#124580">
             <div class="nav-wrapper">
                 <a href="#!" class="brand-logo left" style="margin-left: 15px;">Smart Home</a>
                 <ul id="nav-mobile" class="right" style="margin-right: 15px;">
-                    <li class="active"><a href="#">Devices</a></li>
-                    <li><a href="#">Help</a></li>
+                    <li class="active">
+                        <a href="#boton-prueba">Boton de prueba</a>
+                    </li>
+                    <li class="active">
+                        <a href="#dispositivos">Dispositivos</a>
+                    </li>
+                    <li>
+                        <a href="#">Configuración</a>
+                    </li>
                 </ul>
             </div>
-        </nav>	
+        </nav>
 		<!-- Page Body -->
-		<div class="container">
-			<br/>
-            <h3>Smart Home Web Client!</h3>
-			<br/>
 
-               <a id="button_1" class="waves-effect waves-light btn">button</a>
-			<div class="row">
-                <div class="input-field col l10 m12 s12">
-                    <textarea id="textarea_1" class="materialize-textarea" style="height: 450px;" readonly></textarea>
-                    <label for="textarea_1"></label>
-                </div>
-            </div>
-		</div>	
+		<div class="container">
+            <a id="boton-prueba"></a>
+            <h4>Boton de prueba</h4>
+            <a id="boton" class="waves-effect waves-light btn">button</a>
+        </div>
+
+        <br/>
+	<div class="container">
+            <a id="dispositivos"></a>
+            <h4>Dispositivos</h4>
+            <ul class="collection">
+            <!-- Agregar dispositivos -->
+            <br/>
+            <br/>
+            </ul>
+        </div>
 		<!-- Page Footer -->
         <footer class="page-footer" style="background-color:#124580">
             <div class="container">

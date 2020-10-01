@@ -18,7 +18,7 @@ class Main implements EventListenerObject, GETResponseListener {
 
       this.mostrarUsers(users);
 
-      let b:HTMLElement = document.getElementById("button_1");
+      let b:HTMLElement = document.getElementById("boton");
       b.addEventListener("click",this);
 
   }
@@ -34,7 +34,7 @@ class Main implements EventListenerObject, GETResponseListener {
     console.log(target);
     console.log(this);
     this.counter++;
-    target.textContent = this.counter;
+    target.textContent = this.counter.toString();
     this.mf.requestGET("devices.txt",this);
   }
 
