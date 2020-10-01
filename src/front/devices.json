@@ -1,0 +1,31 @@
+[
+  {
+    "id":"1",
+    "name":"Lampara 1",
+    "description":"Luz living",
+    "state":"0",
+    "type":"0"
+  },
+  {
+    "id":"2",
+    "name":"Ventana 1",
+    "description":"Ventana living",
+    "state":"0",
+    "type":"1"
+  },
+  {
+    "id":"3",
+    "name":"Lampara 2",
+    "description":"Luz baño",
+    "state":"0",
+    "type":"0"
+  },
+  {
+    "id":"4",
+    "name":"Ventana 2",
+    "description":"Ventana baño",
+    "state":"1",
+    "type":"1"
+  }
+
+]

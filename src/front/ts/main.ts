@@ -1,3 +1,11 @@
+interface DeviceInt {
+  id:string;
+  name:string;
+  description:string;
+  state:string;
+  type:string;
+}
+
 class Main implements EventListenerObject, GETResponseListener {
 
   counter = 0;
@@ -7,7 +15,9 @@ class Main implements EventListenerObject, GETResponseListener {
   }
 
   handleGETResponse(status:number, response:string):void {
+    let devices:DeviceInt[]= JSON.parse(response);
     console.log("status: " + status + " response: " + response); 
+    console.log(devices);
   }
 
   main():void {
@@ -35,7 +45,7 @@ class Main implements EventListenerObject, GETResponseListener {
     console.log(this);
     this.counter++;
     target.textContent = this.counter.toString();
-    this.mf.requestGET("devices.txt",this);
+    this.mf.requestGET("devices.json",this);
   }
 
 
