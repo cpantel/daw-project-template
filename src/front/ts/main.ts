@@ -34,7 +34,7 @@ class Main implements EventListenerObject, GETResponseListener {
 
   }
 
-  showDevices(list:DeviceInt[]):void {
+  showDevicesOriginal(list:DeviceInt[]):void {
     let ulist = document.getElementById("devicesList");
     for (let device of list) {
       let path = "static/images/window.png";
@@ -51,7 +51,7 @@ class Main implements EventListenerObject, GETResponseListener {
            <div class="switch">
              <label>
                 Off
-               <input type="checkbox">
+               <input id="dev_${device.id}"type="checkbox">
                <span class="lever"></span>
                 On
               </label>
@@ -62,7 +62,7 @@ class Main implements EventListenerObject, GETResponseListener {
     }
 
   }
-    showDevices2(list:DeviceInt[]):void {
+    showDevices(list:DeviceInt[]):void {
         let ulist = document.getElementById("devicesList");
         
         list.forEach(device => {
@@ -91,6 +91,7 @@ class Main implements EventListenerObject, GETResponseListener {
             label.appendChild(document.createTextNode("off"));
             var input=document.createElement("input");
             input.setAttribute("type","checkbox");
+            input.setAttribute("id","dev_"+device.id)
             var span2 = document.createElement("span");
             span2.setAttribute("class", "lever")
             label.appendChild(input);
@@ -107,7 +108,11 @@ class Main implements EventListenerObject, GETResponseListener {
             li.appendChild(p);
             li.appendChild(a);
             
-            ulist.appendChild(li)
+            ulist.appendChild(li);
+            input.addEventListener("click",this);
+               
+            
+
         });
     }
 
@@ -117,13 +122,17 @@ class Main implements EventListenerObject, GETResponseListener {
   }
 
   handleEvent(evt:Event):void{
-    let target = this.mf.getElementByEvent(evt);
-    console.log("click");
-    console.log(target);
-    console.log(this);
-    this.counter++;
-    target.textContent = this.counter.toString();
-    this.mf.requestGET("devices.json",this);
+    //let target = this.mf.getElementByEvent(evt);
+    let target = <HTMLElement>evt.target;
+    let type   = evt.type;
+    console.log("target: " + target + " type: " + type +  " id: " + target.id);
+    //console.log(target);
+    //console.log(this);
+    if (target.id=="boton") {
+      this.counter++;
+      target.textContent = this.counter.toString();
+      this.mf.requestGET("devices.json",this);
+    }
   }
 
 
