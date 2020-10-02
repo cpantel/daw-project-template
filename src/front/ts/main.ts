@@ -6,12 +6,17 @@ interface DeviceInt {
   type:string;
 }
 
-class Main implements EventListenerObject, GETResponseListener {
+class Main implements EventListenerObject, GETResponseListener, POSTResponseListener{
 
   counter = 0;
   mf = new MyFramework();
   constructor(){
     this.counter = 0;
+  }
+
+  handlePOSTResponse(status:number, response:string):void {
+    console.log(status);
+    console.log(response);
   }
 
   handleGETResponse(status:number, response:string):void {
@@ -20,6 +25,14 @@ class Main implements EventListenerObject, GETResponseListener {
     console.log(devices);
     this.showDevices(devices);
   }
+
+  getSwitchStateById(id:string):boolean {
+    
+    let i =  <HTMLInputElement>document.getElementById(id);
+    return i.checked;
+
+  }
+  
 
   main():void {
       let users:Array<User> = new Array<User>();
@@ -131,7 +144,9 @@ class Main implements EventListenerObject, GETResponseListener {
     if (target.id=="boton") {
       this.counter++;
       target.textContent = this.counter.toString();
-      this.mf.requestGET("devices.json",this);
+      this.mf.requestGET("http://localhost:8080/devices.php",this);
+    } else {
+      let data = {"id":"dev_"+target.id, "state":"33"}
     }
   }
 
