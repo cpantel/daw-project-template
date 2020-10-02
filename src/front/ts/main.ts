@@ -18,6 +18,7 @@ class Main implements EventListenerObject, GETResponseListener {
     let devices:DeviceInt[]= JSON.parse(response);
     console.log("status: " + status + " response: " + response); 
     console.log(devices);
+    this.showDevices(devices);
   }
 
   main():void {
@@ -32,6 +33,83 @@ class Main implements EventListenerObject, GETResponseListener {
       b.addEventListener("click",this);
 
   }
+
+  showDevices(list:DeviceInt[]):void {
+    let ulist = document.getElementById("devicesList");
+    for (let device of list) {
+      let path = "static/images/window.png";
+      if (device.type =="0") {
+         path = "static/images/lightbulb.png";
+      }
+      ulist.innerHTML += `
+      <li class="collection-item avatar">
+      <img src="${path}" alt="" class="circle">
+         <span class="title">${device.name}</span>
+         <p>${device.description} <br>
+         </p>
+         <a href="#!" class="secondary-content">
+           <div class="switch">
+             <label>
+                Off
+               <input type="checkbox">
+               <span class="lever"></span>
+                On
+              </label>
+            </div>
+         </a>
+       </li>      
+      `;
+    }
+
+  }
+    showDevices2(list:DeviceInt[]):void {
+        let ulist = document.getElementById("devicesList");
+        
+        list.forEach(device => {
+            let li = document.createElement("li");
+            li.setAttribute("class", "collection-item avatar");
+            var img= document.createElement("img");
+            if (device.type == "0") {
+                img.setAttribute("src","static/images/lightbulb.png");
+            } else {
+                img.setAttribute("src","static/images/window.png");
+            }
+            
+
+            var span = document.createElement("span");
+            span.setAttribute("class","title");
+            span.appendChild(document.createTextNode(device.name))
+
+            var p = document.createElement("p");
+            p.appendChild(document.createTextNode(device.description));
+            var a = document.createElement("a");
+            a.setAttribute("class", "secondary-content");
+            
+            var div = document.createElement("div");
+            div.setAttribute("class", "switch");
+            var label = document.createElement("label");
+            label.appendChild(document.createTextNode("off"));
+            var input=document.createElement("input");
+            input.setAttribute("type","checkbox");
+            var span2 = document.createElement("span");
+            span2.setAttribute("class", "lever")
+            label.appendChild(input);
+            label.appendChild(span2)
+
+            label.appendChild(document.createTextNode("on"));
+            
+            div.appendChild(label)
+            a.appendChild(div)
+            
+
+            li.appendChild(img);
+            li.appendChild(span);
+            li.appendChild(p);
+            li.appendChild(a);
+            
+            ulist.appendChild(li)
+        });
+    }
 
   mostrarUsers(users:Array<User>):void {
     
