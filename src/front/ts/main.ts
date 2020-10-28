@@ -6,7 +6,7 @@ interface DeviceInt {
   type:string;
 }
 
-class Main implements EventListenerObject, GETResponseListener, POSTResponseListener{
+class Main implements EventListenerObject, GETResponseListener, POSTResponseListener {
 
   counter = 0;
   mf = new MyFramework();
@@ -25,14 +25,6 @@ class Main implements EventListenerObject, GETResponseListener, POSTResponseList
     console.log(devices);
     this.showDevices(devices);
   }
-
-  getSwitchStateById(id:string):boolean {
-    
-    let i =  <HTMLInputElement>document.getElementById(id);
-    return i.checked;
-
-  }
-  
 
   main():void {
       let users:Array<User> = new Array<User>();
@@ -144,9 +136,13 @@ class Main implements EventListenerObject, GETResponseListener, POSTResponseList
     if (target.id=="boton") {
       this.counter++;
       target.textContent = this.counter.toString();
-      this.mf.requestGET("http://localhost:8080/devices.php",this);
+      this.mf.requestGET("devices.json",this);
     } else {
-      let data = {"id":"dev_"+target.id, "state":"33"}
+      let state:boolean =    (<HTMLInputElement>evt.target).checked;
+      let data = { "id":`${target.id}`, "state":state };
+//       this.mf.requestPOST ("https://cors-anywhere.herokuapp.com/https://postman-echo.com/post", data, this);
+      
+       this.mf.requestPOST("http://localhost:8080/devices.php",data,this);
     }
   }
 
