@@ -6,12 +6,17 @@ interface DeviceInt {
   type:string;
 }
 
-class Main implements EventListenerObject, GETResponseListener {
+class Main implements EventListenerObject, GETResponseListener, POSTResponseListener {
 
   counter = 0;
   mf = new MyFramework();
   constructor(){
     this.counter = 0;
+  }
+
+  handlePOSTResponse(status:number, response:string):void {
+    console.log(status);
+    console.log(response);
   }
 
   handleGETResponse(status:number, response:string):void {
@@ -132,6 +137,12 @@ class Main implements EventListenerObject, GETResponseListener {
       this.counter++;
       target.textContent = this.counter.toString();
       this.mf.requestGET("devices.json",this);
+    } else {
+      let state:boolean =    (<HTMLInputElement>evt.target).checked;
+      let data = { "id":`${target.id}`, "state":state };
+//       this.mf.requestPOST ("https://cors-anywhere.herokuapp.com/https://postman-echo.com/post", data, this);
+      
+       this.mf.requestPOST("http://localhost:8080/devices.php",data,this);
     }
   }
 
