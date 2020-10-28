@@ -20,10 +20,13 @@ app.use(express.json());
 app.use(express.static('/home/node/app/static/'));
 
 //=======[ Main module code ]==================================================
+var dataPath = "datos.json";
 
 app.get('/devices/', function(req, res, next) {
-    response = "{ 'key1':'value1' }"
-    res.send(JSON.stringify(response)).status(200);
+    res.json(dataPath);
+
+//    response = "{ 'key1':'value1' }"
+//    res.send(JSON.stringify(response)).status(200);
 });
 
 app.listen(PORT, function(req, res) {
