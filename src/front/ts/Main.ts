@@ -66,10 +66,7 @@ class Main implements EventListenerObject, GETResponseListener, PATCHResponseLis
           description : (<HTMLInputElement>document.getElementById("device_description")).value
         }
         this.api.requestPATCH("devices", data, this);
-
- //       this.api.requestGET("devices",this);
-
-      } else {
+     } else {
         let state:boolean = (<HTMLInputElement>evt.target).checked;
         let id = target.id.slice(4);
         let data = { "id":`${id}`, "state":state };

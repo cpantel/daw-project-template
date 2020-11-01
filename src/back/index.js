@@ -90,6 +90,22 @@ app.patch('/devices', function(req,res,next) {
 });
 
 
+app.post('/devices', function(req,res,next) {
+    console.log(req.body)
+    conn.query("insert into Devices (name, description, state, type) values (?,?,?,?)",
+        [req.body.name, req.body.description, req.body.state, req.body.type] ,function(err,response) {
+        if (err) {
+            console.log(err);
+            res.send(err).status(500);
+            return;
+        }
+        req.body.id = response.insertId;
+        res.send(req.body).status(200);
+    });
+ });
+
+
+
 app.listen(PORT, function(req, res) {
     console.log("NodeJS API running correctly");
 });
