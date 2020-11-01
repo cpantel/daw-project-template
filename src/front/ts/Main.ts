@@ -8,12 +8,11 @@ interface DeviceInt {
 
 class Main implements EventListenerObject, GETResponseListener, PATCHResponseListener {
 
-  counter = 0;
   api = new API();
   view = new ViewMainPage();
 
   constructor(){
-    this.counter = 0;
+    
   }
 
   handlePATCHResponse(status:number, response:string):void {
@@ -23,8 +22,6 @@ class Main implements EventListenerObject, GETResponseListener, PATCHResponseLis
 
   handleGETResponse(status:number, response:string):void {
     let devices:DeviceInt[]= JSON.parse(response);
-    console.log("status: " + status + " response: " + response); 
-    console.log(devices);
     this.view.showDevices(devices,this);
 
     for (let device of devices ) {
@@ -34,13 +31,8 @@ class Main implements EventListenerObject, GETResponseListener, PATCHResponseLis
   }
 
   main():void {
-      let users:Array<User> = new Array<User>();
-      users.push(new User(0,"Ana", "ana@gmail.com"));
-      users.push(new User(1,"Beto", "beto@gmail.com"));
-      users.push(new User(2,"Camila", "camila@gmail.com"));
-      this.mostrarUsers(users);
+      this.api.requestGET("devices",this);
       document.getElementById("boton").addEventListener("click",this);
-      
   }
 
     
@@ -53,8 +45,7 @@ class Main implements EventListenerObject, GETResponseListener, PATCHResponseLis
     let type   = evt.type;
     console.log("target: " + target + " type: " + type +  " id: " + target.id);
     if (target.id=="boton") {
-      this.counter++;
-      target.textContent = this.counter.toString();
+      //target.textContent = this.counter.toString();
       this.api.requestGET("devices",this);
       console.log("handling boton");
     } else {

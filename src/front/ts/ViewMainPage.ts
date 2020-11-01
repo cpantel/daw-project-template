@@ -1,6 +1,8 @@
 class ViewMainPage {
     showDevices(list:DeviceInt[],element:Main):void {
+
       let e:HTMLElement = document.getElementById("devicesList");
+      e.innerHTML="";
       for (let device of list) {
           let image = "lightbulb.png";
           let checked = "";
