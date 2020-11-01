@@ -45,7 +45,44 @@ app.get('/devices/:id', function(req, res, next) {
 });
 
 app.patch('/devices', function(req,res,next) {
-    var state = req.body.state? 1: 0;
+
+    
+
+    conn.query("SELECT * from Devices where id = ?", [req.body.id] ,function(err,response) {
+        if (err) {
+            res.send("device not found").status(400);
+            return;
+        }
+        
+        var device = Object.assign({}, response[0]);
+
+        if ( req.body.name != null) {
+            device.name = req.body.name;
+        }
+        if ( req.body.description != null) {
+            device.description = req.body.description;
+        }
+
+        if ( req.body.state != null) {
+            device.state = req.body.state;
+        }
+
+        if ( req.body.type != null) {
+            device.type = req.body.type;
+        }
+    
+        conn.query("update Devices set name = ?, description = ?, state = ?, type = ?  where id = ?",
+            [device.name, device.description, device.state, device.type, req.body.id ] ,function(err,response) {
+            if (err) {
+                res.send(err).status(400);
+                return;
+            }
+            console.log("device patched");
+            res.send(device).status(200);
+        });
+    });
+
+/*
     console.log(`patching device ${req.body.id} with state ${req.body.state}`);
     conn.query("update Devices set state = ? where id = ?", [req.body.state, req.body.id ] ,function(err,response) {
         if (err) {
@@ -55,6 +92,7 @@ app.patch('/devices', function(req,res,next) {
         console.log("device patched");
         res.send("oK");
     });
+    */
 });
 
 
