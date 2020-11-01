@@ -6,7 +6,7 @@ interface DeviceInt {
   type:string;
 }
 
-class Main implements EventListenerObject, GETResponseListener, POSTResponseListener {
+class Main implements EventListenerObject, GETResponseListener, PATCHResponseListener {
 
   counter = 0;
   api = new API();
@@ -16,7 +16,7 @@ class Main implements EventListenerObject, GETResponseListener, POSTResponseList
     this.counter = 0;
   }
 
-  handlePOSTResponse(status:number, response:string):void {
+  handlePATCHResponse(status:number, response:string):void {
     console.log(status);
     console.log(response);
   }
@@ -61,8 +61,8 @@ class Main implements EventListenerObject, GETResponseListener, POSTResponseList
       let state:boolean =    (<HTMLInputElement>evt.target).checked;
       let id = target.id.slice(4);
       let data = { "id":`${id}`, "state":state };
-      this.api.requestPOST("http://localhost:8000/devices",data,this);
-      console.log("sending post");
+      this.api.requestPATCH("http://localhost:8000/devices",data,this);
+      console.log("sending patch");
       console.log(data)
     }
   }

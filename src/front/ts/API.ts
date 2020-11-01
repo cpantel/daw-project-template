@@ -1,5 +1,5 @@
-interface POSTResponseListener{
-  handlePOSTResponse(status:number, response:string):void;
+interface PATCHResponseListener{
+  handlePATCHResponse(status:number, response:string):void;
 }
 
 interface GETResponseListener {
@@ -23,20 +23,20 @@ class API{
     xhr.send(null);
   }
   
-  requestPOST(url:string, data:object, listener:POSTResponseListener):void{
+  requestPATCH(url:string, data:object, listener:PATCHResponseListener):void{
     let xhr:XMLHttpRequest = new XMLHttpRequest();
     
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4) {
         if (xhr.status == 200) {
-          listener.handlePOSTResponse(xhr.status,xhr.responseText);
+          listener.handlePATCHResponse(xhr.status,xhr.responseText);
         } else {
-          listener.handlePOSTResponse(xhr.status, null);
+          listener.handlePATCHResponse(xhr.status, null);
         }
       }
     }
 
-    xhr.open("POST", url);
+    xhr.open("PATCH", url);
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(JSON.stringify(data));
   }

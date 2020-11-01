@@ -12,7 +12,7 @@ var PORT    = 3000;
 
 var express = require('express');
 var app     = express();
-var mysql   = require('./mysql-connector');
+var conn   = require('./mysql-connector');
 
 // to parse application/json
 app.use(express.json());
@@ -21,47 +21,42 @@ app.use(express.json());
 app.use(express.static('/home/node/app/static/'));
 
 //=======[ Main module code ]==================================================
-var datos = require("./datos.json");
 
 app.get('/devices/', function(req, res, next) {
-    res.json(datos);
-
+    conn.query("SELECT * from Devices",function(err,response) {
+        if (err) {
+            res.send(err).status(400);
+            return;
+        }
+        res.send(response);
+    });
 });
 
 
 app.get('/devices/:id', function(req, res, next) {
-    var device = datos.filter(
-        function(elem) {
-            return elem.id == req.params.id
+
+    conn.query("SELECT * from Devices where id = ?", [req.params.id] ,function(err,response) {
+        if (err) {
+            res.send(err).status(400);
+            return;
         }
-    );
-    if (device.length == 1) {
-        res.send(device[0]).status(200);
-    } else {
-        console.log("not found");
-        res.send("error").status(400);
-    }
-    
+        res.send(response);
+    });
 });
 
-app.post('/devices', function(req,res,next) {
-    console.log(req.body);
-    var device = datos.filter(
-        function(elem) {
-            return elem.id == req.body.id
+app.patch('/devices', function(req,res,next) {
+    var state = req.body.state? 1: 0;
+    console.log(`patching device ${req.body.id} with state ${req.body.state}`);
+    conn.query("update Devices set state = ? where id = ?", [req.body.state, req.body.id ] ,function(err,response) {
+        if (err) {
+            res.send(err).status(400);
+            return;
         }
-    );
-    
-    if (device.length == 1) {
-        device[0].state = req.body.state;
-        res.send(device[0]).status(200);
-    } else {
-        console.log("post not found");
-        res.send("error").status(400);
-    }    
-
-    console.log(device);
+        console.log("device patched");
+        res.send("oK");
+    });
 });
+
 
 app.listen(PORT, function(req, res) {
     console.log("NodeJS API running correctly");
