@@ -45,7 +45,7 @@ class ViewMainPage {
               <label for="device_description">Description</label>
             </div>
           </div>
-          <a class="waves-effect waves-light btn" id="updateDevice">button</a>
+          <a class="waves-effect waves-light btn" id="updateDevice">Enviar</a>
         </form>
         </div>
         `;

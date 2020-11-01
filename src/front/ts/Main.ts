@@ -54,7 +54,9 @@ class Main implements EventListenerObject, GETResponseListener, PATCHResponseLis
         )
         console.log(device)
         let b = this.view.editDevice(device[0],target, this);
+
         document.getElementById(b).addEventListener("click",this);
+        document.getElementById("edit_"+target.id.slice(5)).removeEventListener("click",this);
       } else if(target.id == "updateDevice") {
         console.log("ready to update a device");
         
