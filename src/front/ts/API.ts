@@ -25,7 +25,7 @@ class API{
   
   requestPOST(url:string, data:object, listener:POSTResponseListener):void{
     let xhr:XMLHttpRequest = new XMLHttpRequest();
-
+    
     xhr.onreadystatechange = function() {
       if (xhr.readyState == 4) {
         if (xhr.status == 200) {
@@ -37,11 +37,7 @@ class API{
     }
 
     xhr.open("POST", url);
-    let formData:FormData = new FormData();
-    for (let key in data) {
-      formData.append(key, data[key]);
-    }
-    xhr.send(formData);
-
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify(data));
   }
 }

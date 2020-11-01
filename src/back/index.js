@@ -15,18 +15,52 @@ var app     = express();
 var mysql   = require('./mysql-connector');
 
 // to parse application/json
-app.use(express.json()); 
+app.use(express.json());
+
 // to serve static files
 app.use(express.static('/home/node/app/static/'));
 
 //=======[ Main module code ]==================================================
-var dataPath = "datos.json";
+var datos = require("./datos.json");
 
 app.get('/devices/', function(req, res, next) {
-    res.json(dataPath);
+    res.json(datos);
 
-//    response = "{ 'key1':'value1' }"
-//    res.send(JSON.stringify(response)).status(200);
+});
+
+
+app.get('/devices/:id', function(req, res, next) {
+    var device = datos.filter(
+        function(elem) {
+            return elem.id == req.params.id
+        }
+    );
+    if (device.length == 1) {
+        res.send(device[0]).status(200);
+    } else {
+        console.log("not found");
+        res.send("error").status(400);
+    }
+    
+});
+
+app.post('/devices', function(req,res,next) {
+    console.log(req.body);
+    var device = datos.filter(
+        function(elem) {
+            return elem.id == req.body.id
+        }
+    );
+    
+    if (device.length == 1) {
+        device[0].state = req.body.state;
+        res.send(device[0]).status(200);
+    } else {
+        console.log("post not found");
+        res.send("error").status(400);
+    }    
+
+    console.log(device);
 });
 
 app.listen(PORT, function(req, res) {

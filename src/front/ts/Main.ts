@@ -26,6 +26,11 @@ class Main implements EventListenerObject, GETResponseListener, POSTResponseList
     console.log("status: " + status + " response: " + response); 
     console.log(devices);
     this.view.showDevices(devices,this);
+
+    for (let device of devices ) {
+      console.log(device)
+      document.getElementById("dev_"+device.id).addEventListener("click",this);
+    }    
   }
 
   main():void {
@@ -35,6 +40,7 @@ class Main implements EventListenerObject, GETResponseListener, POSTResponseList
       users.push(new User(2,"Camila", "camila@gmail.com"));
       this.mostrarUsers(users);
       document.getElementById("boton").addEventListener("click",this);
+      
   }
 
     
@@ -49,11 +55,15 @@ class Main implements EventListenerObject, GETResponseListener, POSTResponseList
     if (target.id=="boton") {
       this.counter++;
       target.textContent = this.counter.toString();
-      this.api.requestGET("devices.json",this);
+      this.api.requestGET("devices",this);
+      console.log("handling boton");
     } else {
       let state:boolean =    (<HTMLInputElement>evt.target).checked;
-      let data = { "id":`${target.id}`, "state":state };
-      this.api.requestPOST("http://localhost:8080/devices.php",data,this);
+      let id = target.id.slice(4);
+      let data = { "id":`${id}`, "state":state };
+      this.api.requestPOST("http://localhost:8000/devices",data,this);
+      console.log("sending post");
+      console.log(data)
     }
   }
 }

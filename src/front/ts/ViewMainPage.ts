@@ -1,5 +1,31 @@
 class ViewMainPage {
     showDevices(list:DeviceInt[],element:Main):void {
+      let e:HTMLElement = document.getElementById("devicesList");
+      for (let device of list) {
+          let image = "lightbulb.png";
+          let checked = "";
+          if (device.type == "1") image = "window.png";
+          if (device.state == "1") checked = "checked"
+          e.innerHTML += `<li class="collection-item avatar">
+            <img src="static/images/${image}" alt="" class="circle">
+            <span clas="title">${device.name}</span>
+            <p>${device.description}</p>
+            <a href="#!" class="secondary-content">
+              <div class="switch">
+                <label>
+                OFF
+                <input id="dev_${device.id}" type="checkbox" ${checked}>
+                <span class="lever"></span>
+                On
+                </label>
+              </div>
+            </a>
+          </li>  
+          `;
+      }
+
+    }
+    showDevices2(list:DeviceInt[],element:Main):void {
         let ulist = document.getElementById("devicesList");
         list.forEach(device => {
 
@@ -8,16 +34,16 @@ class ViewMainPage {
             span2.setAttribute("class", "lever")
 
             var label = document.createElement("label");
-            label.appendChild(document.createTextNode("off"));
+            label.appendChild(document.createTextNode("Off"));
 
             var input=document.createElement("input");
             input.setAttribute("type","checkbox");
-            input.setAttribute("id","dev_"+device.id)
+            input.setAttribute("id","dev "+device.id)
 
             label.appendChild(input);
             label.appendChild(span2)
 
-            label.appendChild(document.createTextNode("on"));
+            label.appendChild(document.createTextNode("On"));
 
             var div = document.createElement("div");
             div.setAttribute("class", "switch");
