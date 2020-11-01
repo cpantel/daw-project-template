@@ -37,11 +37,11 @@ class ViewMainPage {
         <form class="col s12">
           <div class="row">
             <div class="input-field col s6">
-              <input id="device_name" type="text">
-              <label for="device_name">Name</label>
+              <input id="device_name" type="text" value="${id.name}">
+              <label for="device_name" >Name</label>
             </div>
             <div class="input-field col s6">
-              <input id="device_description" type="text">
+              <input id="device_description" type="text"  value="${id.description}">
               <label for="device_description">Description</label>
             </div>
           </div>

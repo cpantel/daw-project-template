@@ -40,9 +40,7 @@ class Main implements EventListenerObject, GETResponseListener, PATCHResponseLis
   handleEvent(evt:Event):void{
     let target = <HTMLElement>evt.target;
     let type   = evt.type;
-    console.log("target: " + target + " type: " + type +  " id: " + target.id) ;
-    target.classList.forEach(className => console.log("   class: " +  className));
-    
+            
     if (target.id=="boton") {
       this.api.requestGET("devices",this);
       console.log("handling boton");
@@ -52,7 +50,6 @@ class Main implements EventListenerObject, GETResponseListener, PATCHResponseLis
         let device = this.devices.filter(
           elem => elem.id == target.id.slice(5)
         )
-        console.log(device)
         let b = this.view.editDevice(device[0],target, this);
 
         document.getElementById(b).addEventListener("click",this);
