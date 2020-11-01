@@ -10,6 +10,7 @@ class Main implements EventListenerObject, GETResponseListener, PATCHResponseLis
 
   api = new API();
   view = new ViewMainPage();
+  devices:DeviceInt[];
 
   constructor(){
     
@@ -18,15 +19,16 @@ class Main implements EventListenerObject, GETResponseListener, PATCHResponseLis
   handlePATCHResponse(status:number, response:string):void {
     console.log(status);
     console.log(response);
+    this.api.requestGET("devices",this);    
   }
 
   handleGETResponse(status:number, response:string):void {
-    let devices:DeviceInt[]= JSON.parse(response);
-    this.view.showDevices(devices,this);
+    this.devices= JSON.parse(response);
+    this.view.showDevices(this.devices,this);
 
-    for (let device of devices ) {
-      console.log(device)
+    for (let device of this.devices ) {
       document.getElementById("dev_"+device.id).addEventListener("click",this);
+      document.getElementById("edit_"+device.id).addEventListener("click",this);
     }    
   }
 
@@ -35,26 +37,44 @@ class Main implements EventListenerObject, GETResponseListener, PATCHResponseLis
       document.getElementById("boton").addEventListener("click",this);
   }
 
-    
-  mostrarUsers(users:Array<User>):void {
-      users.forEach( user => user.printInfo());
-  }
-
   handleEvent(evt:Event):void{
     let target = <HTMLElement>evt.target;
     let type   = evt.type;
-    console.log("target: " + target + " type: " + type +  " id: " + target.id);
+    console.log("target: " + target + " type: " + type +  " id: " + target.id) ;
+    target.classList.forEach(className => console.log("   class: " +  className));
+    
     if (target.id=="boton") {
-      //target.textContent = this.counter.toString();
       this.api.requestGET("devices",this);
       console.log("handling boton");
     } else {
-      let state:boolean =    (<HTMLInputElement>evt.target).checked;
-      let id = target.id.slice(4);
-      let data = { "id":`${id}`, "state":state };
-      this.api.requestPATCH("http://localhost:8000/devices",data,this);
-      console.log("sending patch");
-      console.log(data)
+      
+      if (target.classList[0] == "title") {
+        let device = this.devices.filter(
+          elem => elem.id == target.id.slice(5)
+        )
+        console.log(device)
+        let b = this.view.editDevice(device[0],target, this);
+        document.getElementById(b).addEventListener("click",this);
+      } else if(target.id == "updateDevice") {
+        console.log("ready to update a device");
+        
+        let data = {
+          id: 1,
+          name: (<HTMLInputElement>document.getElementById("device_name")).value,
+          description : (<HTMLInputElement>document.getElementById("device_description")).value
+        }
+        this.api.requestPATCH("devices", data, this);
+
+ //       this.api.requestGET("devices",this);
+
+      } else {
+        let state:boolean = (<HTMLInputElement>evt.target).checked;
+        let id = target.id.slice(4);
+        let data = { "id":`${id}`, "state":state };
+        this.api.requestPATCH("http://localhost:8000/devices",data,this);
+        console.log("sending patch");
+        console.log(data)
+      }
     }
   }
 }
