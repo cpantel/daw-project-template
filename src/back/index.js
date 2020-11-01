@@ -25,19 +25,23 @@ app.use(express.static('/home/node/app/static/'));
 app.get('/devices/', function(req, res, next) {
     conn.query("SELECT * from Devices",function(err,response) {
         if (err) {
-            res.send(err).status(400);
+            console.log(err);
+            res.send(err).status(500);
             return;
         }
         res.send(response);
     });
 });
 
-
 app.get('/devices/:id', function(req, res, next) {
-
     conn.query("SELECT * from Devices where id = ?", [req.params.id] ,function(err,response) {
         if (err) {
-            res.send(err).status(400);
+            console.log(err)
+            res.send(err).status(500);
+            return;
+        }
+        if (response.length == 0) {
+            res.send(`device ${req.params.id} not found`).status(400);
             return;
         }
         res.send(response);
@@ -45,14 +49,16 @@ app.get('/devices/:id', function(req, res, next) {
 });
 
 app.patch('/devices', function(req,res,next) {
-
-    
-
     conn.query("SELECT * from Devices where id = ?", [req.body.id] ,function(err,response) {
         if (err) {
-            res.send("device not found").status(400);
+            console.log(err);
+            res.send(err).status(500);
             return;
         }
+        if (response.length == 0) {
+            res.send(`device ${req.params.id} not found`).status(400);
+            return;
+        }        
         
         var device = Object.assign({}, response[0]);
 
@@ -74,25 +80,13 @@ app.patch('/devices', function(req,res,next) {
         conn.query("update Devices set name = ?, description = ?, state = ?, type = ?  where id = ?",
             [device.name, device.description, device.state, device.type, req.body.id ] ,function(err,response) {
             if (err) {
-                res.send(err).status(400);
+                console.log(err);
+                res.send(err).status(500);
                 return;
             }
-            console.log("device patched");
             res.send(device).status(200);
         });
     });
-
-/*
-    console.log(`patching device ${req.body.id} with state ${req.body.state}`);
-    conn.query("update Devices set state = ? where id = ?", [req.body.state, req.body.id ] ,function(err,response) {
-        if (err) {
-            res.send(err).status(400);
-            return;
-        }
-        console.log("device patched");
-        res.send("oK");
-    });
-    */
 });
 
 
